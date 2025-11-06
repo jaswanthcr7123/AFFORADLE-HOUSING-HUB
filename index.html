@@ -1,0 +1,3401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affordable Housing Hub - Find Your Dream Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Premium Color Theme */
+        :root {
+            --primary: #0f0c14;
+            --secondary: #15121a;
+            --accent: #1e1b26;
+            --highlight: #6366f1;
+            --highlight-light: #818cf8;
+            --text: #ffffff;
+            --text-secondary: #a0a0a0;
+            --card-bg: #1e1b26;
+            --input-bg: #2d2a37;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --shadow-light: rgba(0, 0, 0, 0.2);
+            --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--highlight);
+            transition: color 0.3s ease;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-circle {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--accent);
+            border-top-color: var(--highlight);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--secondary);
+            box-shadow: 0 4px 12px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--highlight);
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--highlight);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--highlight);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .auth-buttons button {
+            background-color: var(--accent);
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-left: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .auth-buttons button:hover {
+            background-color: var(--highlight);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-light);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info span {
+            margin-right: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--highlight);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px var(--highlight);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(21, 18, 26, 0.85), rgba(21, 18, 26, 0.95)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: var(--text-secondary);
+            animation: fadeIn 1.5s ease;
+        }
+
+        .search-bar {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            animation: fadeIn 2s ease;
+            background-color: var(--card-bg);
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            background-color: transparent;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-bar button {
+            background: var(--gradient);
+            color: white;
+            padding: 0 1.5rem;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .toggle-switch {
+            display: flex;
+            background-color: var(--card-bg);
+            border-radius: 30px;
+            padding: 5px;
+            box-shadow: 0 4px 10px var(--shadow);
+        }
+
+        .toggle-option {
+            padding: 10px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toggle-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .toggle-option.active {
+            color: white;
+        }
+
+        .toggle-option.active::before {
+            opacity: 1;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin: 3rem 0 2rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* Featured Listings */
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Property Card */
+        .property-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .property-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--gradient);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .property-favorite {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .property-favorite:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .property-favorite.active {
+            background-color: var(--error);
+        }
+
+        .property-image-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .property-card:hover .property-image {
+            transform: scale(1.05);
+        }
+
+        .property-details {
+            padding: 1.5rem;
+        }
+
+        .property-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--highlight);
+            margin-bottom: 0.5rem;
+        }
+
+        .property-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .property-location {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .property-location i {
+            margin-right: 5px;
+        }
+
+        .property-features {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .property-features span {
+            display: flex;
+            align-items: center;
+        }
+
+        .property-features i {
+            margin-right: 5px;
+            color: var(--highlight);
+        }
+
+        .view-btn {
+            background: var(--gradient);
+            color: white;
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-light);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: 2rem auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            overflow: hidden;
+            animation: modalAppear 0.3s ease;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--accent);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-modal {
+            background: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--error);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-images {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            height: 300px;
+        }
+
+        .modal-main-image {
+            grid-row: span 2;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-main-image:hover {
+            transform: scale(1.02);
+        }
+
+        .modal-secondary-image {
+            height: 145px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-secondary-image:hover {
+            transform: scale(1.02);
+        }
+
+        .modal-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .owner-info {
+            background-color: var(--secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .contact-btn {
+            flex: 1;
+            padding: 0.7rem;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn i {
+            margin-right: 5px;
+        }
+
+        .call-btn {
+            background-color: var(--success);
+        }
+
+        .call-btn:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+
+        .email-btn {
+            background-color: var(--accent);
+        }
+
+        .email-btn:hover {
+            background-color: var(--highlight);
+            transform: translateY(-2px);
+        }
+
+        .copy-btn {
+            background-color: var(--highlight);
+        }
+
+        .copy-btn:hover {
+            background-color: var(--highlight-light);
+            transform: translateY(-2px);
+        }
+
+        /* Filter Sidebar */
+        .filters-sidebar {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--highlight);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-option {
+            background-color: var(--secondary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option:hover {
+            background-color: var(--accent);
+        }
+
+        .filter-option.active {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 10px;
+        }
+
+        .price-range input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--text);
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--highlight);
+        }
+
+        .submit-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-light);
+        }
+
+        /* Authentication Forms */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab.active {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        /* Settings Page */
+        .settings-container {
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+
+        .settings-tabs {
+            display: flex;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .settings-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background-color: var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .settings-tab.active {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .settings-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .settings-group {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .settings-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .settings-group h3 {
+            margin-bottom: 1rem;
+            color: var(--highlight);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .setting-item label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .setting-item label i {
+            margin-right: 10px;
+            color: var(--highlight);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background-color: var(--secondary);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background-color: var(--highlight);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(26px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            padding: 3rem 0 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--highlight);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--highlight);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--accent);
+            color: var(--text-secondary);   
+            font-size: 0.9rem;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--highlight);
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--card-bg);
+            color: var(--text);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px var(--shadow);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--error);
+        }
+
+        .toast i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .toast.success i {
+            color: var(--success);
+        }
+
+        .toast.error i {
+            color: var(--error);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem 0;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                margin: 1rem 0;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 0.5rem 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                border-radius: 8px;
+            }
+
+            .search-bar input {
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+
+            .search-bar button {
+                border-radius: 8px;
+                padding: 1rem;
+            }
+
+            .modal-details {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-images {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .modal-main-image {
+                grid-row: auto;
+                height: 200px;
+            }
+
+            .modal-secondary-image {
+                height: 100px;
+            }
+
+            .listings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-tabs {
+                flex-direction: column;
+            }
+
+            .settings-tab {
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-circle"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-home"></i>
+                    AFFORDABLE HOUSING HUB
+                </a>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#" class="active" data-page="home">Home</a></li>
+                    <li><a href="#" data-page="listings">Listings</a></li>
+                    <li><a href="#" data-page="add-property">Add Property</a></li>
+                    <li><a href="#" data-page="saved">Saved</a></li>
+                    <li><a href="#" data-page="settings">Settings</a></li>
+                </ul>
+                <div class="user-section">
+                    <div class="auth-buttons">
+                        <button id="login-btn">Login</button>
+                        <button id="register-btn">Register</button>
+                    </div>
+                    <div class="user-info" style="display: none;">
+                        <span>Welcome, <span id="user-name">User</span></span>
+                        <div class="user-avatar" id="user-avatar">U</div>
+                    </div>
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <section id="home-page" class="page active">
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Find Your Dream Home Without Brokerage</h1>
+                    <p>AFFORDABLE HOUSING HUB connects property owners directly with buyers and tenants. Browse thousands of properties with no middlemen involved.</p>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search by city, title, or owner..." id="search-input">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="toggle-container">
+                <div class="toggle-switch">
+                    <div class="toggle-option active" data-type="rent">For Rent</div>
+                    <div class="toggle-option" data-type="buy">For Sale</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Featured Properties</h2>
+            <div class="listings-grid" id="featured-listings">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Listings Page -->
+    <section id="listings-page" class="page">
+        <div class="container">
+            <h2 class="section-title">All Properties</h2>
+            
+            <div class="filters-sidebar">
+                <div class="filter-group">
+                    <h3 class="filter-title">Location</h3>
+                    <div class="filter-options" id="location-filters">
+                        <!-- JS -->
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3 class="filter-title">Price Range</h3>
+                    <div class="price-range">
+                        <input type="number" placeholder="Min Price" id="min-price">
+                        <input type="number" placeholder="Max Price" id="max-price">
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3 class="filter-title">Bedrooms</h3>
+                    <div class="filter-options" id="bedroom-filters">
+                        <div class="filter-option active" data-bedrooms="any">Any</div>
+                        <div class="filter-option" data-bedrooms="1">1</div>
+                        <div class="filter-option" data-bedrooms="2">2</div>
+                        <div class="filter-option" data-bedrooms="3">3</div>
+                        <div class="filter-option" data-bedrooms="4">4+</div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3 class="filter-title">Amenities</h3>
+                    <div class="filter-options" id="amenity-filters">
+                        <div class="filter-option" data-amenity="parking">Parking</div>
+                        <div class="filter-option" data-amenity="gym">Gym</div>
+                        <div class="filter-option" data-amenity="pool">Pool</div>
+                        <div class="filter-option" data-amenity="lift">Lift</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="listings-grid" id="all-listings">
+                <!-- JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Property Page -->
+    <section id="add-property-page" class="page">
+        <div class="container">
+            <h2 class="section-title">Add Your Property</h2>
+            <div class="form-container">
+                <form id="property-form">
+                    <div class="form-group">
+                        <label for="property-title">Property Title</label>
+                        <input type="text" id="property-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="property-type">Property Type</label>
+                        <select id="property-type" class="form-control" required>
+                            <option value="">Select Type</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house">House</option>
+                            <option value="villa">Villa</option>
+                            <option value="commercial">Commercial</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-type">Transaction Type</label>
+                        <select id="transaction-type" class="form-control" required>
+                            <option value="">Select Type</option>
+                            <option value="rent">For Rent</option>
+                            <option value="sale">For Sale</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="property-price">Price</label>
+                        <input type="number" id="property-price" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="property-bedrooms">Bedrooms</label>
+                        <input type="number" id="property-bedrooms" class="form-control" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="property-city">City</label>
+                        <input type="text" id="property-city" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="property-amenities">Amenities (comma separated)</label>
+                        <input type="text" id="property-amenities" class="form-control" placeholder="e.g., Parking, Gym, Pool">
+                    </div>
+                    <div class="form-group">
+                        <label for="property-description">Description</label>
+                        <textarea id="property-description" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="owner-name">Your Name</label>
+                        <input type="text" id="owner-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="owner-phone">Phone Number</label>
+                        <input type="tel" id="owner-phone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="owner-email">Email</label>
+                        <input type="email" id="owner-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="property-image">Image URL</label>
+                        <input type="url" id="property-image" class="form-control" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Add Property</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Saved Properties Page -->
+    <section id="saved-page" class="page">
+        <div class="container">
+            <h2 class="section-title">Saved Properties</h2>
+            <div class="listings-grid" id="saved-listings">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Settings Page -->
+    <section id="settings-page" class="page">
+        <div class="container">
+            <h2 class="section-title">Settings</h2>
+            <div class="settings-container">
+                <div class="settings-tabs">
+                    <div class="settings-tab active" data-tab="account">Account</div>
+                    <div class="settings-tab" data-tab="notifications">Notifications</div>
+                    <div class="settings-tab" data-tab="display">Display</div>
+                    <div class="settings-tab" data-tab="privacy">Privacy</div>
+                </div>
+                
+                <div class="settings-content">
+                    <!-- Account Settings -->
+                    <div class="settings-section active" id="account-settings">
+                        <div class="settings-group">
+                            <h3>Personal Information</h3>
+                            <div class="form-group">
+                                <label for="settings-name">Full Name</label>
+                                <input type="text" id="settings-name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-email">Email</label>
+                                <input type="email" id="settings-email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-phone">Phone Number</label>
+                                <input type="tel" id="settings-phone" class="form-control">
+                            </div>
+                            <button type="button" class="submit-btn" id="save-account-settings">Save Changes</button>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>Password</h3>
+                            <div class="form-group">
+                                <label for="settings-current-password">Current Password</label>
+                                <input type="password" id="settings-current-password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-new-password">New Password</label>
+                                <input type="password" id="settings-new-password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-confirm-password">Confirm New Password</label>
+                                <input type="password" id="settings-confirm-password" class="form-control">
+                            </div>
+                            <button type="button" class="submit-btn" id="change-password">Change Password</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Notification Settings -->
+                    <div class="settings-section" id="notifications-settings">
+                        <div class="settings-group">
+                            <h3>Email Notifications</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-envelope"></i>
+                                    New property listings matching your search
+                                </label>
+                                <div class="toggle-switch" id="toggle-new-listings">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-envelope"></i>
+                                    Price changes on saved properties
+                                </label>
+                                <div class="toggle-switch" id="toggle-price-changes">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-envelope"></i>
+                                    Newsletter and updates
+                                </label>
+                                <div class="toggle-switch" id="toggle-newsletter">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>Push Notifications</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-bell"></i>
+                                    New messages from property owners
+                                </label>
+                                <div class="toggle-switch" id="toggle-messages">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-bell"></i>
+                                    Property viewing reminders
+                                </label>
+                                <div class="toggle-switch" id="toggle-reminders">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Display Settings -->
+                    <div class="settings-section" id="display-settings">
+                        <div class="settings-group">
+                            <h3>Appearance</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-moon"></i>
+                                    Dark Mode
+                                </label>
+                                <div class="toggle-switch active" id="toggle-dark-mode">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-th"></i>
+                                    Grid View
+                                </label>
+                                <div class="toggle-switch active" id="toggle-grid-view">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>Search Preferences</h3>
+                            <div class="form-group">
+                                <label for="default-city">Default City</label>
+                                <input type="text" id="default-city" class="form-control" placeholder="Enter your default city">
+                            </div>
+                            <div class="form-group">
+                                <label for="default-radius">Search Radius (km)</label>
+                                <input type="number" id="default-radius" class="form-control" min="1" max="100" value="25">
+                            </div>
+                            <button type="button" class="submit-btn" id="save-search-preferences">Save Preferences</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Privacy Settings -->
+                    <div class="settings-section" id="privacy-settings">
+                        <div class="settings-group">
+                            <h3>Profile Visibility</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-eye"></i>
+                                    Show profile to property owners
+                                </label>
+                                <div class="toggle-switch active" id="toggle-profile-visibility">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-phone"></i>
+                                    Show phone number to property owners
+                                </label>
+                                <div class="toggle-switch" id="toggle-phone-visibility">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-group">
+                            <h3>Data & Privacy</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-history"></i>
+                                    Save search history
+                                </label>
+                                <div class="toggle-switch active" id="toggle-search-history">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-chart-line"></i>
+                                    Allow analytics tracking
+                                </label>
+                                <div class="toggle-switch" id="toggle-analytics">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                            <button type="button" class="submit-btn" id="clear-data">Clear All Data</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Authentication</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" data-tab="login">Login</div>
+                    <div class="auth-tab" data-tab="register">Register</div>
+                </div>
+                
+                <form id="login-form" class="auth-form active">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Login</button>
+                </form>
+                
+                <form id="register-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-phone">Phone Number</label>
+                        <input type="tel" id="register-phone" class="form-control" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Property Details Modal -->
+    <div id="property-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-property-title">Property Title</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-images">
+                    <img src="" alt="Property Image" class="modal-main-image" id="modal-main-image">
+                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Property Image" class="modal-secondary-image">
+                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Property Image" class="modal-secondary-image">
+                </div>
+                
+                <div class="modal-details">
+                    <div>
+                        <h3>Description</h3>
+                        <p id="modal-property-description">Property description goes here...</p>
+                        <h3>Details</h3>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed"></i> <span id="modal-bedrooms">3</span> Bedrooms</span>
+                            <span><i class="fas fa-bath"></i> 2 Bathrooms</span>
+                            <span><i class="fas fa-ruler-combined"></i> 1500 sq.ft.</span>
+                        </div>
+                        <div class="property-features" id="modal-amenities"></div>
+                    </div>
+                    
+                    <div class="owner-info">
+                        <h3>Owner Information</h3>
+                        <p><strong>Name:</strong> <span id="modal-owner-name">John Doe</span></p>
+                        <p><strong>Phone:</strong> <span id="modal-owner-phone">+1 234 567 8900</span></p>
+                        <p><strong>Email:</strong> <span id="modal-owner-email">john.doe@example.com</span></p>
+                        <div class="contact-buttons">
+                            <button class="contact-btn call-btn"><i class="fas fa-phone"></i> Call</button>
+                            <button class="contact-btn email-btn"><i class="fas fa-envelope"></i> Email</button>
+                            <button class="contact-btn copy-btn"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>AFFORDABLE HOUSING HUB</h3>
+                    <p>Connecting property owners directly with buyers and tenants. No brokers, no commissions.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Properties</a></li>
+                        <li><a href="#">Add Property</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Property St, Mumbai</li>
+                        <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-envelope"></i> info@affordablehousinghub.com</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get the latest property updates</p>
+                    <form id="newsletter-form">
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Your email" required>
+                        </div>
+                        <button type="submit" class="submit-btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Affordable Housing Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample property data with 50 properties (10+ for each category)
+        const sampleProperties = [
+            // Apartments (10)
+            {
+                id: 1,
+                title: "Luxury Apartment in South Mumbai",
+                type: "apartment",
+                transaction: "rent",
+                price: 85000,
+                bedrooms: 3,
+                city: "Mumbai, Maharashtra",
+                amenities: ["Parking", "Gym", "Lift"],
+                description: "Beautiful luxury apartment in the heart of South Mumbai with amazing sea views and modern amenities.",
+                owner: {
+                    name: "Rajesh Sharma",
+                    phone: "+91 98765 43210",
+                    email: "rajesh.sharma@example.com"
+                },
+                image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2023, 5, 15)
+            },
+            {
+                id: 2,
+                title: "Studio Apartment near Pune University",
+                type: "apartment",
+                transaction: "rent",
+                price: 15000,
+                bedrooms: 1,
+                city: "Pune, Maharashtra",
+                amenities: ["Lift", "Gym"],
+                description: "Compact studio apartment perfect for students, located just minutes from Pune University campus.",
+                owner: {
+                    name: "Priya Deshmukh",
+                    phone: "+91 98765 43211",
+                    email: "priya.deshmukh@example.com"
+                },
+                image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2023, 3, 10)
+            },
+            {
+                id: 3,
+                title: "Penthouse with City View",
+                type: "apartment",
+                transaction: "sale",
+                price: 35000000,
+                bedrooms: 3,
+                city: "Bengaluru, Karnataka",
+                amenities: ["Parking", "Pool", "Gym", "Lift"],
+                description: "Luxurious penthouse with breathtaking city views, private terrace, and high-end finishes.",
+                owner: {
+                    name: "Arun Nair",
+                    phone: "+91 98765 43212",
+                    email: "arun.nair@example.com"
+                },
+                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2023, 2, 28)
+            },
+            {
+                id: 4,
+                title: "Beachfront Condo in Goa",
+                type: "apartment",
+                transaction: "sale",
+                price: 25000000,
+                bedrooms: 2,
+                city: "Goa",
+                amenities: ["Parking", "Pool", "Gym", "Lift"],
+                description: "Stunning beachfront condominium with ocean views, resort-style amenities, and direct beach access.",
+                owner: {
+                    name: "Fernandes",
+                    phone: "+91 98765 43213",
+                    email: "fernandes@example.com"
+                },
+                image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2023, 1, 18)
+            },
+            {
+                id: 5,
+                title: "Downtown Loft in Hyderabad",
+                type: "apartment",
+                transaction: "rent",
+                price: 35000,
+                bedrooms: 2,
+                city: "Hyderabad, Telangana",
+                amenities: ["Parking", "Gym", "Lift"],
+                description: "Industrial-style loft in the heart of Hyderabad with high ceilings, exposed brick, and modern finishes.",
+                owner: {
+                    name: "Srinivas Reddy",
+                    phone: "+91 98765 43214",
+                    email: "srinivas.reddy@example.com"
+                },
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d0693b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 8, 5)
+            },
+            {
+                id: 6,
+                title: "City Center Studio in Delhi",
+                type: "apartment",
+                transaction: "rent",
+                price: 25000,
+                bedrooms: 1,
+                city: "Delhi",
+                amenities: ["Lift", "Gym"],
+                description: "Compact and efficient studio apartment in the heart of Delhi, close to metro station.",
+                owner: {
+                    name: "Amit Verma",
+                    phone: "+91 98765 43215",
+                    email: "amit.verma@example.com"
+                },
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d0693b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 4, 15)
+            },
+            {
+                id: 7,
+                title: "Luxury Penthouse in Chennai",
+                type: "apartment",
+                transaction: "rent",
+                price: 75000,
+                bedrooms: 3,
+                city: "Chennai, Tamil Nadu",
+                amenities: ["Parking", "Pool", "Gym", "Lift"],
+                description: "Ultra-luxurious penthouse suite with panoramic city views, private elevator, and concierge service.",
+                owner: {
+                    name: "Chennai Luxury Rentals",
+                    phone: "+91 98765 43216",
+                    email: "info@chennailuxury.com"
+                },
+                image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 7, 25)
+            },
+            {
+                id: 8,
+                title: "Urban Loft in Kolkata",
+                type: "apartment",
+                transaction: "rent",
+                price: 30000,
+                bedrooms: 2,
+                city: "Kolkata, West Bengal",
+                amenities: ["Parking", "Gym", "Lift"],
+                description: "Trendy loft apartment in a revitalized urban area with exposed brick and industrial-chic design.",
+                owner: {
+                    name: "Kolkata Living Co",
+                    phone: "+91 98765 43217",
+                    email: "info@kolkataliving.com"
+                },
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d0693b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 5, 20)
+            },
+            {
+                id: 9,
+                title: "Modern High-Rise in Gurgaon",
+                type: "apartment",
+                transaction: "sale",
+                price: 18000000,
+                bedrooms: 2,
+                city: "Gurgaon, Haryana",
+                amenities: ["Parking", "Gym", "Pool", "Lift"],
+                description: "Contemporary apartment in a modern high-rise building with stunning city views.",
+                owner: {
+                    name: "Gurgaon Properties",
+                    phone: "+91 98765 43218",
+                    email: "info@gurgaonproperties.com"
+                },
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 6, 10)
+            },
+            {
+                id: 10,
+                title: "Garden Apartment in Jaipur",
+                type: "apartment",
+                transaction: "rent",
+                price: 22000,
+                bedrooms: 2,
+                city: "Jaipur, Rajasthan",
+                amenities: ["Parking", "Gym", "Garden"],
+                description: "Charming apartment with a private garden terrace, perfect for nature lovers in the city.",
+                owner: {
+                    name: "Pink City Living",
+                    phone: "+91 98765 43219",
+                    email: "info@pinkcity.com"
+                },
+                image: "https://images.unsplash.com/photo-1494522358652-f30e61a60313?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 7, 5)
+            },
+            
+            // Houses (10)
+            {
+                id: 11,
+                title: "Cozy Family House in Ahmedabad",
+                type: "house",
+                transaction: "sale",
+                price: 12000000,
+                bedrooms: 3,
+                city: "Ahmedabad, Gujarat",
+                amenities: ["Parking", "Garden"],
+                description: "Charming family home in a quiet neighborhood with a beautiful garden and updated kitchen.",
+                owner: {
+                    name: "Mukesh Patel",
+                    phone: "+91 98765 43220",
+                    email: "mukesh.patel@example.com"
+                },
+                image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2023, 6, 5)
+            },
+            {
+                id: 12,
+                title: "Suburban Townhouse in Noida",
+                type: "house",
+                transaction: "rent",
+                price: 45000,
+                bedrooms: 4,
+                city: "Noida, Uttar Pradesh",
+                amenities: ["Parking", "Garden", "Gym"],
+                description: "Spacious townhouse in a quiet suburban neighborhood with modern amenities and close to schools.",
+                owner: {
+                    name: "Noida Properties",
+                    phone: "+91 98765 43221",
+                    email: "info@noidaproperties.com"
+                },
+                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 7, 12)
+            },
+            {
+                id: 13,
+                title: "Mountain Villa in Shimla",
+                type: "house",
+                transaction: "sale",
+                price: 25000000,
+                bedrooms: 3,
+                city: "Shimla, Himachal Pradesh",
+                amenities: ["Parking", "Garden"],
+                description: "Cozy mountain villa with stunning views, fireplace, and easy access to hiking trails.",
+                owner: {
+                    name: "Himalayan Homes",
+                    phone: "+91 98765 43222",
+                    email: "info@himalayanhomes.com"
+                },
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 6, 22)
+            },
+            {
+                id: 14,
+                title: "Heritage Bungalow in Kolkata",
+                type: "house",
+                transaction: "sale",
+                price: 50000000,
+                bedrooms: 4,
+                city: "Kolkata, West Bengal",
+                amenities: ["Parking", "Garden"],
+                description: "Beautifully restored heritage bungalow with original architectural details and modern updates.",
+                owner: {
+                    name: "Bengal Heritage",
+                    phone: "+91 98765 43223",
+                    email: "info@bengalheritage.com"
+                },
+                image: "https://images.unsplash.com/photo-1576941089067-2de3c5367fa2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 5, 8)
+            },
+            {
+                id: 15,
+                title: "Eco-Friendly Home in Pune",
+                type: "house",
+                transaction: "sale",
+                price: 18000000,
+                bedrooms: 3,
+                city: "Pune, Maharashtra",
+                amenities: ["Parking", "Garden", "Gym"],
+                description: "Sustainable eco-friendly home with solar panels, rainwater harvesting, and energy-efficient design.",
+                owner: {
+                    name: "Green Living",
+                    phone: "+91 98765 43224",
+                    email: "info@greenliving.com"
+                },
+                image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 7, 19)
+            },
+            {
+                id: 16,
+                title: "Lakeside Cottage in Nainital",
+                type: "house",
+                transaction: "rent",
+                price: 35000,
+                bedrooms: 2,
+                city: "Nainital, Uttarakhand",
+                amenities: ["Parking", "Garden"],
+                description: "Charming cottage by the lake with private dock, perfect for water activities and peaceful living.",
+                owner: {
+                    name: "Hillside Retreats",
+                    phone: "+91 98765 43225",
+                    email: "info@hillsideretreats.com"
+                },
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 8, 12)
+            },
+            {
+                id: 17,
+                title: "Family Home in Chandigarh",
+                type: "house",
+                transaction: "sale",
+                price: 15000000,
+                bedrooms: 4,
+                city: "Chandigarh",
+                amenities: ["Parking", "Garden", "Gym"],
+                description: "Spacious family home in a friendly neighborhood with excellent schools and community amenities.",
+                owner: {
+                    name: "City Beautiful Homes",
+                    phone: "+91 98765 43226",
+                    email: "info@citybeautiful.com"
+                },
+                image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 3, 5)
+            },
+            {
+                id: 18,
+                title: "Beach House in Goa",
+                type: "house",
+                transaction: "sale",
+                price: 35000000,
+                bedrooms: 3,
+                city: "Goa",
+                amenities: ["Parking", "Pool"],
+                description: "Stunning beach house with direct ocean access, private beach area, and spectacular sunset views.",
+                owner: {
+                    name: "Goan Coastal",
+                    phone: "+91 98765 43227",
+                    email: "info@goancoastal.com"
+                },
+                image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 4, 30)
+            },
+            {
+                id: 19,
+                title: "Farmhouse in Nashik",
+                type: "house",
+                transaction: "sale",
+                price: 22000000,
+                bedrooms: 4,
+                city: "Nashik, Maharashtra",
+                amenities: ["Parking", "Garden", "Gym"],
+                description: "Charming farmhouse with rustic charm, modern amenities, and plenty of land for outdoor activities.",
+                owner: {
+                    name: "Wine Country Estates",
+                    phone: "+91 98765 43228",
+                    email: "info@winecountry.com"
+                },
+                image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 5, 15)
+            },
+            {
+                id: 20,
+                title: "Desert Home in Jaisalmer",
+                type: "house",
+                transaction: "sale",
+                price: 18000000,
+                bedrooms: 3,
+                city: "Jaisalmer, Rajasthan",
+                amenities: ["Parking", "Pool", "Garden"],
+                description: "Modern desert home with energy-efficient design, pool, and stunning desert landscape views.",
+                owner: {
+                    name: "Royal Desert Living",
+                    phone: "+91 98765 43229",
+                    email: "info@royaldesert.com"
+                },
+                image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 6, 20)
+            },
+            
+            // Villas (10)
+            {
+                id: 21,
+                title: "Modern Villa with Pool in Mumbai",
+                type: "villa",
+                transaction: "sale",
+                price: 80000000,
+                bedrooms: 4,
+                city: "Mumbai, Maharashtra",
+                amenities: ["Parking", "Pool", "Gym"],
+                description: "Stunning modern villa with a private pool, spacious rooms, and premium finishes throughout.",
+                owner: {
+                    name: "Mumbai Elite Properties",
+                    phone: "+91 98765 43230",
+                    email: "info@mumbaielite.com"
+                },
+                image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2023, 4, 20)
+            },
+            {
+                id: 22,
+                title: "Luxury Waterfront Villa in Goa",
+                type: "villa",
+                transaction: "sale",
+                price: 120000000,
+                bedrooms: 5,
+                city: "Goa",
+                amenities: ["Parking", "Pool", "Gym", "Lift"],
+                description: "Exquisite waterfront villa with private dock, infinity pool, and panoramic ocean views.",
+                owner: {
+                    name: "Goan Paradise",
+                    phone: "+91 98765 43231",
+                    email: "info@goanparadise.com"
+                },
+                image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2023, 3, 30)
+            },
+            {
+                id: 23,
+                title: "Golf Course Villa in Pune",
+                type: "villa",
+                transaction: "sale",
+                price: 65000000,
+                bedrooms: 4,
+                city: "Pune, Maharashtra",
+                amenities: ["Parking", "Pool", "Gym"],
+                description: "Luxury villa overlooking a championship golf course with resort-style amenities and city views.",
+                owner: {
+                    name: "Pune Golf Estates",
+                    phone: "+91 98765 43232",
+                    email: "info@punegolf.com"
+                },
+                image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 2, 10)
+            },
+            {
+                id: 24,
+                title: "Mediterranean Villa in Hyderabad",
+                type: "villa",
+                transaction: "sale",
+                price: 75000000,
+                bedrooms: 5,
+                city: "Hyderabad, Telangana",
+                amenities: ["Parking", "Pool", "Gym", "Garden"],
+                description: "Elegant Mediterranean-style villa with terracotta roofs, arches, and lush gardens.",
+                owner: {
+                    name: "Deccan Estates",
+                    phone: "+91 98765 43233",
+                    email: "info@deccanestates.com"
+                },
+                image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 4, 5)
+            },
+            {
+                id: 25,
+                title: "Hillside Villa in Lonavala",
+                type: "villa",
+                transaction: "rent",
+                price: 75000,
+                bedrooms: 4,
+                city: "Lonavala, Maharashtra",
+                amenities: ["Parking", "Pool", "Gym", "Lift"],
+                description: "Spectacular hillside villa with panoramic valley views, infinity pool, and luxury amenities.",
+                owner: {
+                    name: "Lonavala Retreats",
+                    phone: "+91 98765 43234",
+                    email: "info@lonavalaretreats.com"
+                },
+                image: "https://images.unsplash.com/photo-1600607687644-c7df1aa775c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 5, 10)
+            },
+            {
+                id: 26,
+                title: "Tropical Paradise Villa in Kerala",
+                type: "villa",
+                transaction: "sale",
+                price: 85000000,
+                bedrooms: 4,
+                city: "Kerala",
+                amenities: ["Parking", "Pool", "Gym", "Garden"],
+                description: "Tropical villa surrounded by lush vegetation, private beach access, and luxury resort amenities.",
+                owner: {
+                    name: "God's Own Country",
+                    phone: "+91 98765 43235",
+                    email: "info@godsown.com"
+                },
+                image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 6, 15)
+            },
+            {
+                id: 27,
+                title: "Modern Architectural Villa in Delhi",
+                type: "villa",
+                transaction: "sale",
+                price: 150000000,
+                bedrooms: 5,
+                city: "Delhi",
+                amenities: ["Parking", "Pool", "Gym", "Lift"],
+                description: "Cutting-edge architectural masterpiece with innovative design, smart home technology, and luxury finishes.",
+                owner: {
+                    name: "Capital Designs",
+                    phone: "+91 98765 43236",
+                    email: "info@capitaldesigns.com"
+                },
+                image: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 7, 20)
+            },
+            {
+                id: 28,
+                title: "Wine Country Villa in Nashik",
+                type: "villa",
+                transaction: "sale",
+                price: 95000000,
+                bedrooms: 4,
+                city: "Nashik, Maharashtra",
+                amenities: ["Parking", "Pool", "Gym", "Garden"],
+                description: "Elegant villa in the heart of wine country with vineyard views, wine cellar, and luxury amenities.",
+                owner: {
+                    name: "Sula Estates",
+                    phone: "+91 98765 43237",
+                    email: "info@sulaestates.com"
+                },
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 8, 25)
+            },
+            {
+                id: 29,
+                title: "Seaside Villa in Varkala",
+                type: "villa",
+                transaction: "rent",
+                price: 85000,
+                bedrooms: 4,
+                city: "Varkala, Kerala",
+                amenities: ["Parking", "Pool", "Gym", "Lift"],
+                description: "Luxurious seaside villa with direct beach access, panoramic ocean views, and resort-style living.",
+                owner: {
+                    name: "Kerala Coastal",
+                    phone: "+91 98765 43238",
+                    email: "info@keralacoastal.com"
+                },
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d0693b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 9, 5)
+            },
+            {
+                id: 30,
+                title: "Desert Oasis Villa in Jodhpur",
+                type: "villa",
+                transaction: "sale",
+                price: 75000000,
+                bedrooms: 4,
+                city: "Jodhpur, Rajasthan",
+                amenities: ["Parking", "Pool", "Gym", "Garden"],
+                description: "Stunning desert villa with modern architecture, infinity pool, and breathtaking fort views.",
+                owner: {
+                    name: "Blue City Properties",
+                    phone: "+91 98765 43239",
+                    email: "info@bluecity.com"
+                },
+                image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 10, 10)
+            },
+            
+            // Commercial (10)
+            {
+                id: 31,
+                title: "Corporate Office Space in Mumbai",
+                type: "commercial",
+                transaction: "sale",
+                price: 150000000,
+                bedrooms: 0,
+                city: "Mumbai, Maharashtra",
+                amenities: ["Parking", "Lift"],
+                description: "Prime commercial office space in Bandra Kurla Complex with modern facilities and high visibility.",
+                owner: {
+                    name: "Mumbai Commercial",
+                    phone: "+91 98765 43240",
+                    email: "info@mumbaicommercial.com"
+                },
+                image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 6, 30)
+            },
+            {
+                id: 32,
+                title: "Retail Space in Delhi",
+                type: "commercial",
+                transaction: "rent",
+                price: 300000,
+                bedrooms: 0,
+                city: "Delhi",
+                amenities: ["Parking", "Lift"],
+                description: "Prime retail space in Connaught Place with excellent visibility and high foot traffic.",
+                owner: {
+                    name: "Delhi Retail",
+                    phone: "+91 98765 43241",
+                    email: "info@delhiretail.com"
+                },
+                image: "https://images.unsplash.com/photo-1556740748-6d7296a6a2d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 7, 15)
+            },
+            {
+                id: 33,
+                title: "Industrial Warehouse in Chennai",
+                type: "commercial",
+                transaction: "sale",
+                price: 50000000,
+                bedrooms: 0,
+                city: "Chennai, Tamil Nadu",
+                amenities: ["Parking"],
+                description: "Large industrial warehouse with high ceilings, loading docks, and excellent logistics location.",
+                owner: {
+                    name: "Chennai Industrial",
+                    phone: "+91 98765 43242",
+                    email: "info@chennaiindustrial.com"
+                },
+                image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 8, 20)
+            },
+            {
+                id: 34,
+                title: "Medical Office in Bengaluru",
+                type: "commercial",
+                transaction: "sale",
+                price: 80000000,
+                bedrooms: 0,
+                city: "Bengaluru, Karnataka",
+                amenities: ["Parking", "Lift"],
+                description: "Modern medical office building with examination rooms, waiting areas, and medical facilities.",
+                owner: {
+                    name: "Bangalore Healthcare",
+                    phone: "+91 98765 43243",
+                    email: "info@bangalorehealthcare.com"
+                },
+                image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 9, 25)
+            },
+            {
+                id: 35,
+                title: "Restaurant Space in Mumbai",
+                type: "commercial",
+                transaction: "rent",
+                price: 250000,
+                bedrooms: 0,
+                city: "Mumbai, Maharashtra",
+                amenities: ["Parking"],
+                description: "Fully equipped restaurant space in Bandra with existing kitchen facilities.",
+                owner: {
+                    name: "Mumbai Food Court",
+                    phone: "+91 98765 43244",
+                    email: "info@mumbaifood.com"
+                },
+                image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 10, 30)
+            },
+            {
+                id: 36,
+                title: "Tech Hub Office in Hyderabad",
+                type: "commercial",
+                transaction: "rent",
+                price: 400000,
+                bedrooms: 0,
+                city: "Hyderabad, Telangana",
+                amenities: ["Parking", "Gym", "Lift"],
+                description: "Modern office space in Hitech City with high-speed internet, conference rooms, and collaborative spaces.",
+                owner: {
+                    name: "Hyderabad Tech Park",
+                    phone: "+91 98765 43245",
+                    email: "info@hyderabadtech.com"
+                },
+                image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 11, 15)
+            },
+            {
+                id: 37,
+                title: "Shopping Mall in Pune",
+                type: "commercial",
+                transaction: "sale",
+                price: 200000000,
+                bedrooms: 0,
+                city: "Pune, Maharashtra",
+                amenities: ["Parking", "Lift"],
+                description: "Established shopping center with anchor tenants, high foot traffic, and excellent location.",
+                owner: {
+                    name: "Pune Retail Group",
+                    phone: "+91 98765 43246",
+                    email: "info@puneretail.com"
+                },
+                image: "https://images.unsplash.com/photo-1562911171-0c3351a7a6b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2023, 12, 20)
+            },
+            {
+                id: 38,
+                title: "Co-working Space in Bengaluru",
+                type: "commercial",
+                transaction: "rent",
+                price: 150000,
+                bedrooms: 0,
+                city: "Bengaluru, Karnataka",
+                amenities: ["Parking", "Gym", "Lift"],
+                description: "Modern co-working space with private offices, meeting rooms, and collaborative work areas.",
+                owner: {
+                    name: "Bangalore WorkSpace",
+                    phone: "+91 98765 43247",
+                    email: "info@bangaloreworkspace.com"
+                },
+                image: "https://images.unsplash.com/photo-1497366210349-2c3456a6e6b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2024, 1, 5)
+            },
+            {
+                id: 39,
+                title: "Hotel Property in Goa",
+                type: "commercial",
+                transaction: "sale",
+                price: 300000000,
+                bedrooms: 0,
+                city: "Goa",
+                amenities: ["Parking", "Pool", "Gym", "Lift"],
+                description: "Luxury hotel property in prime location with casino, restaurants, and entertainment facilities.",
+                owner: {
+                    name: "Goan Hospitality",
+                    phone: "+91 98765 43248",
+                    email: "info@goanhospitality.com"
+                },
+                image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2024, 1, 20)
+            },
+            {
+                id: 40,
+                title: "Mixed-Use Development in Gurgaon",
+                type: "commercial",
+                transaction: "sale",
+                price: 250000000,
+                bedrooms: 0,
+                city: "Gurgaon, Haryana",
+                amenities: ["Parking", "Gym", "Lift"],
+                description: "Prime mixed-use development with retail, office, and residential components in Cyber City.",
+                owner: {
+                    name: "Gurgaon Developers",
+                    phone: "+91 98765 43249",
+                    email: "info@gurgaondev.com"
+                },
+                image: "https://images.unsplash.com/photo-1486406146926-c3270ea99c4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2024, 2, 5)
+            },
+            
+            // Additional Properties (10)
+            {
+                id: 41,
+                title: "Luxury Condo in South Mumbai",
+                type: "apartment",
+                transaction: "sale",
+                price: 45000000,
+                bedrooms: 3,
+                city: "Mumbai, Maharashtra",
+                amenities: ["Parking", "Pool", "Gym", "Lift"],
+                description: "Breathtaking sea views from every room in this luxury condominium with resort-style amenities.",
+                owner: {
+                    name: "Marine Drive Properties",
+                    phone: "+91 98765 43250",
+                    email: "info@marinedrive.com"
+                },
+                image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2024, 2, 10)
+            },
+            {
+                id: 42,
+                title: "Modern Townhouse in Gurgaon",
+                type: "house",
+                transaction: "rent",
+                price: 55000,
+                bedrooms: 3,
+                city: "Gurgaon, Haryana",
+                amenities: ["Parking", "Gym", "Garden"],
+                description: "Contemporary townhouse with modern design, rooftop terrace, and city views.",
+                owner: {
+                    name: "Gurgaon Urban Living",
+                    phone: "+91 98765 43251",
+                    email: "info@gurgaonurban.com"
+                },
+                image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2024, 2, 15)
+            },
+            {
+                id: 43,
+                title: "Hilltop Villa in Lonavala",
+                type: "villa",
+                transaction: "sale",
+                price: 120000000,
+                bedrooms: 5,
+                city: "Lonavala, Maharashtra",
+                amenities: ["Parking", "Pool", "Gym", "Lift", "Garden"],
+                description: "Magnificent hilltop villa with panoramic valley views, infinity pool, and luxury finishes throughout.",
+                owner: {
+                    name: "Western Ghats Estates",
+                    phone: "+91 98765 43252",
+                    email: "info@westernghats.com"
+                },
+                image: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2024, 2, 20)
+            },
+            {
+                id: 44,
+                title: "Office Space in Mumbai",
+                type: "commercial",
+                transaction: "rent",
+                price: 350000,
+                bedrooms: 0,
+                city: "Mumbai, Maharashtra",
+                amenities: ["Parking", "Gym", "Lift"],
+                description: "Premium office space in the heart of BKC with modern amenities and excellent transportation access.",
+                owner: {
+                    name: "Mumbai Business Center",
+                    phone: "+91 98765 43253",
+                    email: "info@mumbaibusiness.com"
+                },
+                image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2024, 2, 25)
+            },
+            {
+                id: 45,
+                title: "Beachfront Bungalow in Goa",
+                type: "house",
+                transaction: "sale",
+                price: 60000000,
+                bedrooms: 4,
+                city: "Goa",
+                amenities: ["Parking", "Pool", "Garden"],
+                description: "Stunning beachfront bungalow with direct beach access, panoramic ocean views, and luxury finishes.",
+                owner: {
+                    name: "Goan Coastal Properties",
+                    phone: "+91 98765 43254",
+                    email: "info@goancoastal.com"
+                },
+                image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2024, 3, 1)
+            },
+            {
+                id: 46,
+                title: "City Loft in Delhi",
+                type: "apartment",
+                transaction: "rent",
+                price: 40000,
+                bedrooms: 2,
+                city: "Delhi",
+                amenities: ["Parking", "Gym", "Lift"],
+                description: "Trendy city loft with exposed brick, high ceilings, and modern industrial design elements.",
+                owner: {
+                    name: "Delhi Loft Living",
+                    phone: "+91 98765 43255",
+                    email: "info@delhiloft.com"
+                },
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d0693b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2024, 3, 5)
+            },
+            {
+                id: 47,
+                title: "Mountain Retreat in Manali",
+                type: "house",
+                transaction: "sale",
+                price: 90000000,
+                bedrooms: 4,
+                city: "Manali, Himachal Pradesh",
+                amenities: ["Parking", "Pool", "Gym", "Garden"],
+                description: "Luxurious mountain retreat with ski-in/ski-out access, panoramic mountain views, and premium amenities.",
+                owner: {
+                    name: "Himalayan Retreats",
+                    phone: "+91 98765 43256",
+                    email: "info@himalayanretreats.com"
+                },
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: true,
+                dateAdded: new Date(2024, 3, 10)
+            },
+            {
+                id: 48,
+                title: "Lakeside Villa in Ooty",
+                type: "villa",
+                transaction: "rent",
+                price: 90000,
+                bedrooms: 4,
+                city: "Ooty, Tamil Nadu",
+                amenities: ["Parking", "Pool", "Gym", "Lift", "Garden"],
+                description: "Stunning lakeside villa with private beach access, boat dock, and panoramic lake and mountain views.",
+                owner: {
+                    name: "Nilgiri Luxury",
+                    phone: "+91 98765 43257",
+                    email: "info@nilgiri.com"
+                },
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2024, 3, 15)
+            },
+            {
+                id: 49,
+                title: "Tech Startup Hub in Bengaluru",
+                type: "commercial",
+                transaction: "sale",
+                price: 100000000,
+                bedrooms: 0,
+                city: "Bengaluru, Karnataka",
+                amenities: ["Parking", "Gym", "Lift"],
+                description: "Modern office space designed for tech startups with collaborative areas, high-speed internet, and flexible layouts.",
+                owner: {
+                    name: "Silicon Valley of India",
+                    phone: "+91 98765 43258",
+                    email: "info@siliconvalleyindia.com"
+                },
+                image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2024, 3, 20)
+            },
+            {
+                id: 50,
+                title: "Garden Apartment in Pune",
+                type: "apartment",
+                transaction: "rent",
+                price: 28000,
+                bedrooms: 2,
+                city: "Pune, Maharashtra",
+                amenities: ["Parking", "Gym", "Garden"],
+                description: "Charming garden apartment with private terrace, lush greenery, and peaceful neighborhood setting.",
+                owner: {
+                    name: "Pune Green Spaces",
+                    phone: "+91 98765 43259",
+                    email: "info@punegreen.com"
+                },
+                image: "https://images.unsplash.com/photo-1494522358652-f30e61a60313?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                featured: false,
+                dateAdded: new Date(2024, 3, 25)
+            }
+        ];
+
+        // DOM Elements
+        const featuredListingsEl = document.getElementById('featured-listings');
+        const allListingsEl = document.getElementById('all-listings');
+        const savedListingsEl = document.getElementById('saved-listings');
+        const modal = document.getElementById('property-modal');
+        const authModal = document.getElementById('auth-modal');
+        const closeModalBtns = document.querySelectorAll('.close-modal');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const authButtons = document.querySelector('.auth-buttons');
+        const userInfo = document.querySelector('.user-info');
+        const userName = document.getElementById('user-name');
+        const userAvatar = document.getElementById('user-avatar');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const propertyForm = document.getElementById('property-form');
+        const newsletterForm = document.getElementById('newsletter-form');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const authForms = document.querySelectorAll('.auth-form');
+        const toggleOptions = document.querySelectorAll('.toggle-option');
+        const locationFilters = document.getElementById('location-filters');
+        const bedroomFilters = document.querySelectorAll('#bedroom-filters .filter-option');
+        const amenityFilters = document.querySelectorAll('#amenity-filters .filter-option');
+        const minPriceInput = document.getElementById('min-price');
+        const maxPriceInput = document.getElementById('max-price');
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const loader = document.getElementById('loader');
+
+        // Settings Elements
+        const settingsTabs = document.querySelectorAll('.settings-tab');
+        const settingsSections = document.querySelectorAll('.settings-section');
+        const saveAccountSettingsBtn = document.getElementById('save-account-settings');
+        const changePasswordBtn = document.getElementById('change-password');
+        const saveSearchPreferencesBtn = document.getElementById('save-search-preferences');
+        const clearDataBtn = document.getElementById('clear-data');
+
+        // Toggle Switches
+        const toggleNewListings = document.getElementById('toggle-new-listings');
+        const togglePriceChanges = document.getElementById('toggle-price-changes');
+        const toggleNewsletter = document.getElementById('toggle-newsletter');
+        const toggleMessages = document.getElementById('toggle-messages');
+        const toggleReminders = document.getElementById('toggle-reminders');
+        const toggleDarkMode = document.getElementById('toggle-dark-mode');
+        const toggleGridView = document.getElementById('toggle-grid-view');
+        const toggleProfileVisibility = document.getElementById('toggle-profile-visibility');
+        const togglePhoneVisibility = document.getElementById('toggle-phone-visibility');
+        const toggleSearchHistory = document.getElementById('toggle-search-history');
+        const toggleAnalytics = document.getElementById('toggle-analytics');
+
+        // Current user state
+        let currentUser = null;
+        let savedProperties = [];
+        let currentFilter = {
+            transaction: 'rent',
+            location: null,
+            minPrice: null,
+            maxPrice: null,
+            bedrooms: 'any',
+            amenities: []
+        };
+
+        // Settings state
+        let userSettings = {
+            account: {
+                name: '',
+                email: '',
+                phone: ''
+            },
+            notifications: {
+                newListings: true,
+                priceChanges: true,
+                newsletter: false,
+                messages: true,
+                reminders: true
+            },
+            display: {
+                darkMode: true,
+                gridView: true,
+                defaultCity: '',
+                defaultRadius: 25
+            },
+            privacy: {
+                profileVisibility: true,
+                phoneVisibility: false,
+                searchHistory: true,
+                analytics: false
+            }
+        };
+
+        // Initialize location filters
+        function initLocationFilters() {
+            const cities = [...new Set(sampleProperties.map(p => p.city))];
+            locationFilters.innerHTML = cities.map(city => 
+                `<div class="filter-option" data-location="${city}">${city}</div>`
+            ).join('');
+            
+            // Add event listeners
+            locationFilters.querySelectorAll('.filter-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    option.classList.toggle('active');
+                    updateFilters();
+                });
+            });
+        }
+
+        // Render listings
+        function renderListings(listings, container, showSaveButton = false) {
+            container.innerHTML = '';
+            if (listings.length === 0) {
+                container.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">No properties found matching your criteria.</p>';
+                return;
+            }
+            
+            listings.forEach(prop => {
+                const card = document.createElement('div');
+                card.className = 'property-card';
+                
+                const isSaved = savedProperties.includes(prop.id);
+                
+                card.innerHTML = `
+                    <div class="property-image-container">
+                        <img src="${prop.image}" alt="${prop.title}" class="property-image">
+                        <div class="property-badge">${prop.transaction === 'rent' ? 'For Rent' : 'For Sale'}</div>
+                        <div class="property-favorite ${isSaved ? 'active' : ''}" data-id="${prop.id}">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                    </div>
+                    <div class="property-details">
+                        <div class="property-price">₹${prop.price.toLocaleString()}${prop.transaction === 'rent' ? '/mo' : ''}</div>
+                        <h3 class="property-title">${prop.title}</h3>
+                        <div class="property-location"><i class="fas fa-map-marker-alt"></i> ${prop.city}</div>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed"></i> ${prop.bedrooms} Beds</span>
+                            <span><i class="fas fa-bath"></i> 2 Baths</span>
+                            <span><i class="fas fa-vector-square"></i> 1200 sq.ft</span>
+                        </div>
+                        <button class="view-btn" data-id="${prop.id}">View Details</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Add event listeners
+            container.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', () => openPropertyModal(btn.dataset.id));
+            });
+            
+            container.querySelectorAll('.property-favorite').forEach(btn => {
+                btn.addEventListener('click', () => toggleSaveProperty(btn.dataset.id));
+            });
+        }
+
+        // Toggle save property
+        function toggleSaveProperty(id) {
+            const index = savedProperties.indexOf(parseInt(id));
+            if (index === -1) {
+                savedProperties.push(parseInt(id));
+                showToast('Property saved to your favorites', 'success');
+            } else {
+                savedProperties.splice(index, 1);
+                showToast('Property removed from your favorites', 'success');
+            }
+            
+            // Update UI
+            document.querySelectorAll(`.property-favorite[data-id="${id}"]`).forEach(btn => {
+                btn.classList.toggle('active');
+            });
+            
+            // Update saved listings if on that page
+            if (document.getElementById('saved-page').style.display !== 'none') {
+                renderSavedListings();
+            }
+        }
+
+        // Render saved listings
+        function renderSavedListings() {
+            const saved = sampleProperties.filter(p => savedProperties.includes(p.id));
+            renderListings(saved, savedListingsEl, true);
+        }
+
+        // Open modal
+        function openPropertyModal(id) {
+            const prop = sampleProperties.find(p => p.id == id);
+            if (!prop) return;
+
+            document.getElementById('modal-property-title').textContent = prop.title;
+            document.getElementById('modal-main-image').src = prop.image;
+            document.getElementById('modal-property-description').textContent = prop.description;
+            document.getElementById('modal-bedrooms').textContent = prop.bedrooms;
+            document.getElementById('modal-owner-name').textContent = prop.owner.name;
+            document.getElementById('modal-owner-phone').textContent = prop.owner.phone;
+            document.getElementById('modal-owner-email').textContent = prop.owner.email;
+
+            // Amenities
+            const amenitiesEl = document.getElementById('modal-amenities');
+            amenitiesEl.innerHTML = prop.amenities.map(a => 
+                `<span><i class="fas fa-check-circle"></i> ${a}</span>`
+            ).join('');
+
+            modal.style.display = 'block';
+        }
+
+        // Close modal
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modal.style.display = 'none';
+                authModal.style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', (e) => {            
+            if (e.target === modal) modal.style.display = 'none';
+            if (e.target === authModal) authModal.style.display = 'none';
+        });
+
+        // Toggle between login and register forms
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                authTabs.forEach(t => t.classList.remove('active'));
+                authForms.forEach(f => f.classList.remove('active'));
+                
+                tab.classList.add('active');
+                const targetTab = tab.dataset.tab;
+                document.getElementById(`${targetTab}-form`).classList.add('active');
+            });
+        });
+
+        // Handle login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Simple authentication (in a real app, this would be a server request)
+            if (email && password) {
+                currentUser = {
+                    name: email.split('@')[0],
+                    email: email
+                };
+                
+                // Update UI
+                userName.textContent = currentUser.name;
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+                authButtons.style.display = 'none';
+                userInfo.style.display = 'flex';
+                
+                // Close modal
+                authModal.style.display = 'none';
+                
+                // Reset form
+                loginForm.reset();
+                
+                showToast('Login successful! Welcome back.', 'success');
+            }
+        });
+
+        // Handle register form submission
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const phone = document.getElementById('register-phone').value;
+            
+            // Simple registration (in a real app, this would be a server request)
+            if (name && email && password && phone) {
+                currentUser = {
+                    name: name,
+                    email: email,
+                    phone: phone
+                };
+                
+                // Update UI
+                userName.textContent = currentUser.name;
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+                authButtons.style.display = 'none';
+                userInfo.style.display = 'flex';
+                
+                // Close modal
+                authModal.style.display = 'none';
+                
+                // Reset form
+                registerForm.reset();
+                
+                showToast('Registration successful! Welcome to Affordable Housing Hub.', 'success');
+            }
+        });
+
+        // Handle property form submission
+        propertyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const title = document.getElementById('property-title').value;
+            const type = document.getElementById('property-type').value;
+            const transaction = document.getElementById('transaction-type').value;
+            const price = parseInt(document.getElementById('property-price').value);
+            const bedrooms = parseInt(document.getElementById('property-bedrooms').value);
+            const city = document.getElementById('property-city').value;
+            const amenitiesInput = document.getElementById('property-amenities').value;
+            const description = document.getElementById('property-description').value;
+            const ownerName = document.getElementById('owner-name').value;
+            const ownerPhone = document.getElementById('owner-phone').value;
+            const ownerEmail = document.getElementById('owner-email').value;
+            const image = document.getElementById('property-image').value;
+            
+            // Process amenities
+            const amenities = amenitiesInput.split(',').map(a => a.trim()).filter(a => a);
+            
+            // Create new property object
+            const newProperty = {
+                id: sampleProperties.length + 1,
+                title,
+                type,
+                transaction,
+                price,
+                bedrooms,
+                city,
+                amenities,
+                description,
+                owner: {
+                    name: ownerName,
+                    phone: ownerPhone,
+                    email: ownerEmail
+                },
+                image: image || `https://picsum.photos/seed/${Math.random().toString(36).substring(7)}/1200/800.jpg`,
+                featured: false,
+                dateAdded: new Date()
+            };
+            
+            // Add to properties array
+            sampleProperties.push(newProperty);
+            
+            // Update listings
+            renderListings(
+                sampleProperties.filter(p => p.featured && p.transaction === currentFilter.transaction), 
+                featuredListingsEl
+            );
+            renderListings(sampleProperties, allListingsEl);
+            
+            // Reset form
+            propertyForm.reset();
+            
+            // Show success message
+            showToast('Property added successfully!', 'success');
+        });
+
+        // Handle newsletter form submission
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input[type="email"]').value;
+            
+            // Show success message
+            showToast(`Successfully subscribed with ${email}`, 'success');
+            
+            // Reset form
+            newsletterForm.reset();
+        });
+
+        // Toggle between rent and buy
+        toggleOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                toggleOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                currentFilter.transaction = option.dataset.type;
+                
+                // Update featured listings
+                const filtered = sampleProperties.filter(p => 
+                    p.featured && p.transaction === currentFilter.transaction
+                );
+                renderListings(filtered, featuredListingsEl);
+            });
+        });
+
+        // Handle bedroom filters
+        bedroomFilters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                bedroomFilters.forEach(f => f.classList.remove('active'));
+                filter.classList.add('active');
+                
+                currentFilter.bedrooms = filter.dataset.bedrooms;
+                updateFilters();
+            });
+        });
+
+        // Handle amenity filters
+        amenityFilters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                filter.classList.toggle('active');
+                updateFilters();
+            });
+        });
+
+        // Handle price range inputs
+        minPriceInput.addEventListener('input', updateFilters);
+        maxPriceInput.addEventListener('input', updateFilters);
+
+        // Update filters and render listings
+        function updateFilters() {
+            // Get active location filters
+            const activeLocations = Array.from(locationFilters.querySelectorAll('.filter-option.active'))
+                .map(el => el.dataset.location);
+            
+            // Get active amenity filters
+            const activeAmenities = Array.from(amenityFilters)
+                .filter(el => el.classList.contains('active'))
+                .map(el => el.dataset.amenity);
+            
+            // Update current filter
+            currentFilter.location = activeLocations.length > 0 ? activeLocations : null;
+            currentFilter.minPrice = minPriceInput.value ? parseInt(minPriceInput.value) : null;
+            currentFilter.maxPrice = maxPriceInput.value ? parseInt(maxPriceInput.value) : null;
+            currentFilter.amenities = activeAmenities;
+            
+            // Filter properties
+            let filtered = sampleProperties.filter(prop => {
+                // Transaction type
+                if (prop.transaction !== currentFilter.transaction) return false;
+                
+                // Location
+                if (currentFilter.location && !currentFilter.location.includes(prop.city)) return false;
+                
+                // Price range
+                if (currentFilter.minPrice && prop.price < currentFilter.minPrice) return false;
+                if (currentFilter.maxPrice && prop.price > currentFilter.maxPrice) return false;
+                
+                // Bedrooms
+                if (currentFilter.bedrooms !== 'any' && prop.bedrooms !== parseInt(currentFilter.bedrooms)) return false;
+                
+                // Amenities
+                if (currentFilter.amenities.length > 0) {
+                    const hasAllAmenities = currentFilter.amenities.every(amenity => 
+                        prop.amenities.includes(amenity)
+                    );
+                    if (!hasAllAmenities) return false;
+                }
+                
+                return true;
+            });
+            
+            // Render filtered listings
+            renderListings(filtered, allListingsEl);
+        }
+
+        // Handle search
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                renderListings(sampleProperties, allListingsEl);
+                return;
+            }
+            
+            const filtered = sampleProperties.filter(prop => 
+                prop.title.toLowerCase().includes(searchTerm) ||
+                prop.city.toLowerCase().includes(searchTerm) ||
+                prop.owner.name.toLowerCase().includes(searchTerm)
+            );
+            
+            renderListings(filtered, allListingsEl);
+            
+            // Switch to listings page
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById('listings-page').style.display = 'block';
+            document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+            document.querySelector('[data-page="listings"]').classList.add('active');
+        }
+
+        // Handle contact buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.call-btn')) {
+                const phone = document.getElementById('modal-owner-phone').textContent;
+                window.open(`tel:${phone}`, '_self');
+            }
+            
+            if (e.target.closest('.email-btn')) {
+                const email = document.getElementById('modal-owner-email').textContent;
+                window.open(`mailto:${email}`, '_self');
+            }
+            
+            if (e.target.closest('.copy-btn')) {
+                const name = document.getElementById('modal-owner-name').textContent;
+                const phone = document.getElementById('modal-owner-phone').textContent;
+                const email = document.getElementById('modal-owner-email').textContent;
+                
+                const contactInfo = `Name: ${name}\nPhone: ${phone}\nEmail: ${email}`;
+                
+                navigator.clipboard.writeText(contactInfo).then(() => {
+                    showToast('Contact info copied to clipboard!', 'success');
+                });
+            }
+        });
+
+        // Page navigation
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+                
+                // Show target page
+                const target = e.target.dataset.page || e.target.closest('[data-page]').dataset.page;
+                document.getElementById(`${target}-page`).style.display = 'block';
+                
+                // Close mobile menu if open
+                navLinks.classList.remove('active');
+                
+                // Load saved properties if needed
+                if (target === 'saved') {
+                    renderSavedListings();
+                }
+                
+                // Load settings if needed
+                if (target === 'settings') {
+                    loadSettings();
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        mobileMenuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Auth modal
+        loginBtn.addEventListener('click', () => {
+            authModal.style.display = 'block';
+        });
+        registerBtn.addEventListener('click', () => {
+            authModal.style.display = 'block';
+        });
+
+        // Settings functionality
+        function loadSettings() {
+            // Load account settings
+            if (currentUser) {
+                document.getElementById('settings-name').value = currentUser.name || '';
+                document.getElementById('settings-email').value = currentUser.email || '';
+                document.getElementById('settings-phone').value = currentUser.phone || '';
+            }
+            
+            // Load notification settings
+            toggleNewListings.classList.toggle('active', userSettings.notifications.newListings);
+            togglePriceChanges.classList.toggle('active', userSettings.notifications.priceChanges);
+            toggleNewsletter.classList.toggle('active', userSettings.notifications.newsletter);
+            toggleMessages.classList.toggle('active', userSettings.notifications.messages);
+            toggleReminders.classList.toggle('active', userSettings.notifications.reminders);
+            
+            // Load display settings
+            toggleDarkMode.classList.toggle('active', userSettings.display.darkMode);
+            toggleGridView.classList.toggle('active', userSettings.display.gridView);
+            document.getElementById('default-city').value = userSettings.display.defaultCity || '';
+            document.getElementById('default-radius').value = userSettings.display.defaultRadius || 25;
+            
+            // Load privacy settings
+            toggleProfileVisibility.classList.toggle('active', userSettings.privacy.profileVisibility);
+            togglePhoneVisibility.classList.toggle('active', userSettings.privacy.phoneVisibility);
+            toggleSearchHistory.classList.toggle('active', userSettings.privacy.searchHistory);
+            toggleAnalytics.classList.toggle('active', userSettings.privacy.analytics);
+        }
+
+        // Settings tabs
+        settingsTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                settingsTabs.forEach(t => t.classList.remove('active'));
+                settingsSections.forEach(s => s.classList.remove('active'));
+                
+                tab.classList.add('active');
+                const targetTab = tab.dataset.tab;
+                document.getElementById(`${targetTab}-settings`).classList.add('active');
+            });
+        });
+
+        // Toggle switches
+        document.querySelectorAll('.toggle-switch').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+            });
+        });
+
+        // Save account settings
+        saveAccountSettingsBtn.addEventListener('click', () => {
+            const name = document.getElementById('settings-name').value;
+            const email = document.getElementById('settings-email').value;
+            const phone = document.getElementById('settings-phone').value;
+            
+            if (currentUser) {
+                currentUser.name = name;
+                currentUser.email = email;
+                currentUser.phone = phone;
+                
+                userName.textContent = currentUser.name;
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+                
+                userSettings.account = { name, email, phone };
+                
+                showToast('Account settings saved successfully!', 'success');
+            }
+        });
+
+        // Change password
+        changePasswordBtn.addEventListener('click', () => {
+            const currentPassword = document.getElementById('settings-current-password').value;
+            const newPassword = document.getElementById('settings-new-password').value;
+            const confirmPassword = document.getElementById('settings-confirm-password').value;
+            
+            if (newPassword !== confirmPassword) {
+                showToast('Passwords do not match!', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showToast('Password must be at least 6 characters!', 'error');
+                return;
+            }
+            
+            // Clear password fields
+            document.getElementById('settings-current-password').value = '';
+            document.getElementById('settings-new-password').value = '';
+            document.getElementById('settings-confirm-password').value = '';
+            
+            showToast('Password changed successfully!', 'success');
+        });
+
+        // Save search preferences
+        saveSearchPreferencesBtn.addEventListener('click', () => {
+            const defaultCity = document.getElementById('default-city').value;
+            const defaultRadius = document.getElementById('default-radius').value;
+            
+            userSettings.display.defaultCity = defaultCity;
+            userSettings.display.defaultRadius = parseInt(defaultRadius);
+            
+            showToast('Search preferences saved!', 'success');
+        });
+
+        // Clear all data
+        clearDataBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+                savedProperties = [];
+                localStorage.clear();
+                
+                showToast('All data cleared successfully!', 'success');
+                
+                // Refresh saved listings if on that page
+                if (document.getElementById('saved-page').style.display !== 'none') {
+                    renderSavedListings();
+                }
+            }
+        });
+
+        // Save notification settings
+        [toggleNewListings, togglePriceChanges, toggleNewsletter, toggleMessages, toggleReminders].forEach((toggle, index) => {
+            toggle.addEventListener('click', () => {
+                const settings = ['newListings', 'priceChanges', 'newsletter', 'messages', 'reminders'];
+                userSettings.notifications[settings[index]] = toggle.classList.contains('active');
+            });
+        });
+
+        // Save display settings
+        [toggleDarkMode, toggleGridView].forEach((toggle, index) => {
+            toggle.addEventListener('click', () => {
+                const settings = ['darkMode', 'gridView'];
+                userSettings.display[settings[index]] = toggle.classList.contains('active');
+                
+                // Apply dark mode immediately
+                if (settings[index] === 'darkMode') {
+                    if (toggle.classList.contains('active')) {
+                        document.body.style.backgroundColor = 'var(--primary)';
+                    } else {
+                        document.body.style.backgroundColor = '#ffffff';
+                    }
+                }
+            });
+        });
+
+        // Save privacy settings
+        [toggleProfileVisibility, togglePhoneVisibility, toggleSearchHistory, toggleAnalytics].forEach((toggle, index) => {
+            toggle.addEventListener('click', () => {
+                const settings = ['profileVisibility', 'phoneVisibility', 'searchHistory', 'analytics'];
+                userSettings.privacy[settings[index]] = toggle.classList.contains('active');
+            });
+        });
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize the app
+        function init() {
+            // Hide loader after page loads
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                }, 1000);
+            });
+            
+            // Render initial listings
+            renderListings(
+                sampleProperties.filter(p => p.featured && p.transaction === 'rent'), 
+                featuredListingsEl
+            );
+            renderListings(sampleProperties, allListingsEl);
+            
+            // Initialize location filters
+            initLocationFilters();
+            
+            // Set initial active page
+            document.getElementById('home-page').style.display = 'block';
+            document.getElementById('listings-page').style.display = 'none';
+            document.getElementById('add-property-page').style.display = 'none';
+            document.getElementById('saved-page').style.display = 'none';
+            document.getElementById('settings-page').style.display = 'none';
+        }
+
+        // Start the app
+        init();
+    </script>
+<!-- Code injected by live-server -->
+<script>
+    // <![CDATA[  <-- For SVG support
+    if ('WebSocket' in window) {
+        (function () {
+            function refreshCSS() {
+                var sheets = [].slice.call(document.getElementsByTagName("link"));
+                var head = document.getElementsByTagName("head")[0];
+                for (var i = 0; i < sheets.length; ++i) {
+                    var elem = sheets[i];
+                    var parent = elem.parentElement || head;
+                    parent.removeChild(elem);
+                    var rel = elem.rel;
+                    if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                        var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                        elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+                    }
+                    parent.appendChild(elem);
+                }
+            }
+            var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+            var address = protocol + window.location.host + window.location.pathname + '/ws';
+            var socket = new WebSocket(address);
+            socket.onmessage = function (msg) {
+                if (msg.data == 'reload') window.location.reload();
+                else if (msg.data == 'refreshcss') refreshCSS();
+            };
+            if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+                console.log('Live reload enabled.');
+                sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+            }
+        })();
+    }
+    else {
+        console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+    }
+    // ]]>
+</script>
+</body>
+</html>
